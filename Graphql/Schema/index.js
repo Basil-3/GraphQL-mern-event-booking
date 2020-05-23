@@ -1,3 +1,4 @@
+// To create each asset/ participant and define each qury and mutation function
 const {buildSchema} = require('graphql');
 
 module.exports = buildSchema(`
