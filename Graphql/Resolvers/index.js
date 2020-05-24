@@ -138,3 +138,30 @@ module.exports = {
                 throw err;
             });
     },
+    bookEvent: async args => {
+        const fetchedEvent = await Event.findOne({_id: args.eventId})
+        const booking = new Booking({
+            user: '5eb5c162c19026298d306575',
+            event: fetchedEvent
+        });
+        const result = await booking.save();
+        return {
+            ...result._doc, 
+            _id: result.id,
+            user: user.bind(this, booking._doc.user),
+            event: singleEvent.bind(this, booking._doc.event), 
+            createdAt: new Date(result._doc.createdAt).toISOString(), 
+            updatedAt: new Date(result._doc.updatedAt).toISOString()
+        };
+    },
+    cancelBooking: async args => {
+        try {
+            const booking = await Booking.findById(args.bookingId).populate('event');
+            const event = transformEvent(booking.event);
+            await Booking.deleteOne({_id: args.bookingId});
+            return event; 
+        }catch(err){
+            throw err;
+        }
+    } 
+}
