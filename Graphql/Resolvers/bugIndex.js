@@ -1,4 +1,4 @@
-
+//This having some throw err and ENOT found error (either fix it or don't use it)
 const bcrypt = require('bcryptjs');
 
 const Event = require("../../models/event");
